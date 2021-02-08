@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Utils } from '../shared/Utils';
 import { TemperatureUnits } from '../models/TemperatureUnits';
+import { Logger } from '../shared/Logger';
 
 /**
 * A "reactive" service using RxJS...implemented as a Singleton so all clients can listen
@@ -65,20 +66,20 @@ export class WeatherService {
         let sWho = 'WeatherService.fetchWeather';
         let fakeDelayMilliseconds = 1000;
         setTimeout(()=>{
-        console.log(`${sWho}(): Calling fetchWeather(cityState = `, cityState, ')');
+        Logger.debug(`${sWho}(): Calling fetchWeather(cityState = `, cityState, ')');
         Utils.fetchWeather(cityState)
             .then((response:any) => {
-                console.log(`${sWho}(): Got back response = `, response);
-                console.log(`${sWho}(): Got back response.ok = `, response.ok);
+                Logger.debug(`${sWho}(): Got back response = `, response);
+                Logger.debug(`${sWho}(): Got back response.ok = `, response.ok);
                 return response.json();
             })
             .then((json:any) => {
-                console.log(`${sWho}(): Got back json = `, JSON.stringify(json,null,' '));
+                Logger.debug(`${sWho}(): Got back json = `, JSON.stringify(json,null,' '));
                 let output = {cityState: cityState, forecast: json };
                 this.weatherSubject.next(output);        
             })
             .catch((err:any) => {
-                console.log(`${sWho}(): Caught an error during fetch:`, err);
+                Logger.debug(`${sWho}(): Caught an error during fetch:`, err);
                 let output = {cityState: cityState, error: err};
                 this.weatherSubject.next(output);        
             });

@@ -3,7 +3,7 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 import { of } from 'rxjs';
 import { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+// import Adapter from 'enzyme-adapter-react-15';
 
 import { useObservable } from "rxjs-hooks";
 import * as hooks from 'rxjs-hooks';
@@ -67,7 +67,7 @@ const weatherFixture =
 //     WeatherService.mockImplementation(() => {
 //       return class WeatherService {
 //         static getInstance() {
-//           console.log('WeatherServiceMock::getInstance');
+//           Logger.debug('WeatherServiceMock::getInstance');
 //           if (!WeatherService.instance) {
 //               WeatherService.instance = new WeatherService();
 //           }
@@ -75,18 +75,18 @@ const weatherFixture =
 //           return WeatherService.instance;
 //         }
 //         setTemperaturUnits(){
-//           console.log('WeatherServiceMock::setTemperatureUnits');
+//           Logger.debug('WeatherServiceMock::setTemperatureUnits');
 //         }
 //         fetchWeather(){
-//           console.log('WeatherServiceMock::fetchWeather');
+//           Logger.debug('WeatherServiceMock::fetchWeather');
 //         }
 //         observeWeather(){
 //           let output = { weather: weatherFixture };
-//           console.log('WeatherServiceMock::observeWeather: returning of(', output, ')');
+//           Logger.debug('WeatherServiceMock::observeWeather: returning of(', output, ')');
 //           return of(output); // Return an Observable that serves up the output...
 //         }
 //         observeTemperatureUnits(){
-//           console.log(`WeatherServiceMock::observeTemperatureUnits: returning of(`, TemperatureUnits.FAHRENHEIT, `)` );
+//           Logger.debug(`WeatherServiceMock::observeTemperatureUnits: returning of(`, TemperatureUnits.FAHRENHEIT, `)` );
 //           return of(TemperatureUnits.FAHRENHEIT); // Return an Observable that serves up the output...
 //         }
 //       };
@@ -144,17 +144,16 @@ it(descLoadsFetched, async () => {
   // });
 
   // Mock the useObservable hook...
-  jest.spyOn(hooks, 'useObservable').mockImplementation((arg) => {
-    console.log(`useObservable mock: arg = `, arg );
+  jest.spyOn(hooks, 'useObservable').mockImplementation(() => {
     let output = {cityState: "New York, NY", weather: mockWeatherFixture};
-    console.log(`useObservable mock: returning output = `, output);
+    Logger.debug(`useObservable mock: returning output = `, output);
     return output;
   });
 
   let wrapper;
   // Use the asynchronous version of act to apply resolved promises
   await act(async () => {
-    wrapper = mount(<App />);
+    // wrapper = mount(<App />);
     render(<App />, container);
   });
 

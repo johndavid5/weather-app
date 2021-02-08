@@ -7,6 +7,7 @@
 // };
 import { Observable, of } from 'rxjs';
 import { TemperatureUnits } from '../models/TemperatureUnits';
+import { Logger } from '../shared/Logger';
 
 const weatherFixture = 
   {
@@ -58,11 +59,11 @@ const weatherFixture =
 let WeatherService = require.requireActual('../services/weather.service').WeatherService;
 WeatherService.observeWeather = function(){
     let output = { weather: weatherFixture };
-    console.log('WeatherServiceMock::observeWeather: returning of(', output, ')');
+    Logger.debug('WeatherServiceMock::observeWeather: returning of(', output, ')');
     return of(output); // Return an Observable that serves up the output...
 }
 
 WeatherService.observeTemperatureUnits = function(){
-    console.log(`WeatherServiceMock::observeTemperatureUnits: returning of(`, TemperatureUnits.FAHRENHEIT, `)` );
+    Logger.debug(`WeatherServiceMock::observeTemperatureUnits: returning of(`, TemperatureUnits.FAHRENHEIT, `)` );
     return of(TemperatureUnits.FAHRENHEIT); // Return an Observable that serves up the output...
 }
